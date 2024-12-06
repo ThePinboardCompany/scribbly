@@ -44,3 +44,7 @@ yarn-error.log*
 
 # idea files
 .idea
+
+# wrangler files
+.wrangler
+.dev.vars
