@@ -1,45 +1,28 @@
 {
   "compilerOptions": {
-    /* Base Options: */
+    "allowJs": true,
+    "target": "ES2017",
+    "module": "ES2022",
+    "lib": ["es2022", "DOM", "WebWorker", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "@builder.io/qwik",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "Bundler",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "target": "es2022",
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "moduleDetection": "force",
-    "isolatedModules": true,
-
-    /* Strictness */
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "checkJs": true,
-
-    /* Bundled projects */
-    "lib": ["dom", "dom.iterable", "ES2022"],
-    "noEmit": true,
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "jsx": "preserve",
-    "plugins": [{ "name": "next" }],
     "incremental": true,
-
-    /* Path Aliases */
-    "baseUrl": ".",
+    "isolatedModules": true,
+    "outDir": "tmp",
+    "noEmit": true,
     "paths": {
       "~/*": ["./src/*"]
     },
-
-    /* Types */
-    "types": ["@cloudflare/workers-types/2023-07-01"]
+    "types": [
+        "@cloudflare/workers-types/2023-07-01"
+    ]
   },
-  "include": [
-    ".eslintrc.cjs",
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.cjs",
-    "**/*.js",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": ["node_modules"]
+  "files": ["./.eslintrc.cjs"],
+  "include": ["src", "./*.d.ts", "./*.config.ts"]
 }

@@ -9,15 +9,14 @@ Scribbly is a collaborative online whiteboard designed to help teams and individ
 
 ## Checklist
 
-- [x] **T3**
-- [x] **Shadcn**
+- [x] **Qwik**
 - [x] **Tailwind CSS**
+- [x] **Shadcn**
+- [ ] **Drizzle**
+- [ ] **Turso**
+- [ ] **Authjs**
 - [ ] **tldraw**
-- [x] **tRPC**
-- [x] **Authjs**
-- [x] **Prisma**
-- [ ] **SocketIO**
-- [x] **Cloudflare D1**
-- [x] **Cloudflare Pages**
+- [ ] **tldraw/sync**
+- [ ] **Cloudflare Pages**
 
 > © 2024 The Pinboard Company. All Rights Reserved.
