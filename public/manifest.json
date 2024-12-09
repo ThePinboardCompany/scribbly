@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "Scribbly",
+  "short_name": "Scribbly",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "A collaborative online whiteboard to brainstorm, plan, and visualize ideas in real-time"
+}

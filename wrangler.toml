@@ -1,7 +1,7 @@
 #:schema node_modules/wrangler/config-schema.json
 name = "scribbly"
-compatibility_date = "2024-11-27"
-pages_build_output_dir = ".vercel/output/static"
+compatibility_date = "2024-12-05"
+pages_build_output_dir = "./dist"
 compatibility_flags = ["nodejs_compat"]
 
 # Automatically place your workloads in an optimal location to minimize latency.
@@ -26,12 +26,10 @@ NODE_VERSION = "20"
 
 # Bind a D1 database. D1 is Cloudflare’s native serverless SQL database.
 # Docs: https://developers.cloudflare.com/pages/functions/bindings/#d1-databases
-[[d1_databases]]
-binding = "DB"
-database_name = "scribbly"
-database_id = "d891257e-56b0-489a-bf14-6a847bc5958e"
-preview_database_id = "DB"
-migrations_dir = "migrations"
+# [[d1_databases]]
+# binding = "MY_DB"
+# database_name = "my-database"
+# database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 
 # Bind a Durable Object. Durable objects are a scale-to-zero compute primitive based on the actor model.
 # Durable Objects can live for as long as needed. Use these when you need a long-running "server", such as in realtime apps.
