@@ -1,13 +1,13 @@
 {
-  "version": "7",
-  "dialect": "sqlite",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "6",
-      "when": 1733744346081,
-      "tag": "0000_open_bill_hollister",
-      "breakpoints": true
-    }
-  ]
+	"version": "7",
+	"dialect": "sqlite",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "6",
+			"when": 1733744346081,
+			"tag": "0000_open_bill_hollister",
+			"breakpoints": true
+		}
+	]
 }
