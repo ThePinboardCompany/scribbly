@@ -2,10 +2,9 @@ import { type Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 import tailwindcssanimate from 'tailwindcss-animate';
 
-/** @type {import('tailwindcss').Config} */
 export default {
 	darkMode: ['class'],
-	content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
+	content: ['./src/**/*.tsx'],
 	theme: {
 		extend: {
 			fontFamily: {

@@ -9,12 +9,12 @@ Scribbly is a collaborative online whiteboard designed to help teams and individ
 
 ## Checklist
 
-- [x] **Qwik**
+- [x] **T3 Stack**
 - [x] **Tailwind CSS**
 - [x] **Shadcn**
-- [ ] **Drizzle**
-- [ ] **Turso**
-- [ ] **Authjs**
+- [x] **Drizzle**
+- [x] **Turso**
+- [x] **Authjs**
 - [ ] **tldraw**
 - [ ] **tldraw/sync**
 - [ ] **Cloudflare Pages**
