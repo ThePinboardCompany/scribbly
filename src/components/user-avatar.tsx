@@ -25,7 +25,7 @@ export async function UserAvatar() {
 					<Button variant="ghost" className="relative h-8 w-8 rounded-full">
 						<Avatar className="h-8 w-8">
 							<AvatarImage
-								src={user?.image ? user.image : null}
+								src={user?.image ? user.image : undefined}
 								alt={`@${user?.name ? user.name : 'Anonymous'}`}
 							/>
 							<AvatarFallback>
