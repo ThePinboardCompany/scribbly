@@ -1,7 +1,7 @@
 import { type Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 import tailwindcssanimate from 'tailwindcss-animate';
-import tailwindtypography from '@tailwindcss/typography';
+import typography from '@tailwindcss/typography';
 import svgToDataUri from 'mini-svg-data-uri';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -66,6 +66,7 @@ export default {
 	},
 	plugins: [
 		tailwindcssanimate,
+		typography,
 		addVariablesForColors,
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		function ({ matchUtilities, theme }: any) {
