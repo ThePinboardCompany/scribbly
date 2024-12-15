@@ -1,5 +1,5 @@
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
-import { type DefaultSession, type NextAuthConfig } from 'next-auth';
+import { type NextAuthConfig } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
 import GithubProvider from 'next-auth/providers/github';
 
@@ -11,18 +11,19 @@ import {
 	verificationTokens,
 } from '~/server/db/schema';
 
-declare module 'next-auth' {
-	interface Session extends DefaultSession {
-		user: {
-			id: string;
-			// role: UserRole;
-		} & DefaultSession['user'];
-	}
+// import { type DefaultSession } from 'next-auth';
+// declare module 'next-auth' {
+// 	interface Session extends DefaultSession {
+// 		user: {
+// 			id: string;
+// 			// role: UserRole;
+// 		} & DefaultSession['user'];
+// 	}
 
-	// interface User {
-	//   role: UserRole;
-	// }
-}
+// 	interface User {
+// 	  role: UserRole;
+// 	}
+// }
 
 export const authConfig = {
 	providers: [GithubProvider, DiscordProvider],
@@ -36,13 +37,13 @@ export const authConfig = {
 		sessionsTable: sessions,
 		verificationTokensTable: verificationTokens,
 	}),
-	callbacks: {
-		session: ({ session, user }) => ({
-			...session,
-			user: {
-				...session.user,
-				id: user.id,
-			},
-		}),
-	},
+	// callbacks: {
+	// 	session: ({ session, user }) => ({
+	// 		...session,
+	// 		user: {
+	// 			...session.user,
+	// 			id: user.id,
+	// 		},
+	// 	}),
+	// },
 } satisfies NextAuthConfig;

@@ -21,7 +21,8 @@
 		"pages:build": "pnpm dlx @cloudflare/next-on-pages",
 		"pages:preview": "pnpm pages:build && wrangler pages dev",
 		"pages:deploy": "pnpm pages:build && wrangler pages deploy",
-		"wrangler:typegen": "wrangler types"
+		"wrangler:typegen": "wrangler types",
+		"wrangler": "wrangler"
 	},
 	"dependencies": {
 		"@auth/drizzle-adapter": "^1.7.4",
