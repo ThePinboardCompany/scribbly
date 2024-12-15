@@ -1,6 +1,11 @@
 import { type Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 import tailwindcssanimate from 'tailwindcss-animate';
+import tailwindtypography from '@tailwindcss/typography';
+import svgToDataUri from 'mini-svg-data-uri';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import flattenColorPalette from 'tailwindcss/lib/util/flattenColorPalette';
 
 export default {
 	darkMode: ['class'],
@@ -59,5 +64,42 @@ export default {
 			},
 		},
 	},
-	plugins: [tailwindcssanimate],
+	plugins: [
+		tailwindcssanimate,
+		addVariablesForColors,
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		function ({ matchUtilities, theme }: any) {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+			matchUtilities(
+				{
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					'bg-dot-thick': (value: any) => ({
+						backgroundImage: `url("${svgToDataUri(
+							`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="16" height="16" fill="none"><circle fill="${value}" id="pattern-circle" cx="10" cy="10" r="2.5"></circle></svg>`,
+						)}")`,
+					}),
+				},
+				{
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+					values: flattenColorPalette(theme('backgroundColor')),
+					type: 'color',
+				},
+			);
+		},
+	],
 } satisfies Config;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function addVariablesForColors({ addBase, theme }: any) {
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, prefer-const
+	let allColors = flattenColorPalette(theme('colors'));
+	// eslint-disable-next-line prefer-const
+	let newVars = Object.fromEntries(
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+		Object.entries(allColors).map(([key, val]) => [`--${key}`, val]),
+	);
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+	addBase({
+		':root': newVars,
+	});
+}

@@ -1,6 +1,7 @@
 import '~/styles/globals.css';
 
 import { type Metadata } from 'next';
+import { RootNavBar } from '~/components/root-nav-bar';
 import { ThemeProvider } from 'next-themes';
 
 export const metadata: Metadata = {
@@ -70,6 +71,7 @@ export default function RootLayout({
 					enableSystem
 					enableColorScheme
 				>
+					<RootNavBar />
 					{children}
 				</ThemeProvider>
 			</body>

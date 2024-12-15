@@ -25,7 +25,10 @@ declare module 'next-auth' {
 }
 
 export const authConfig = {
-	providers: [DiscordProvider, GithubProvider],
+	providers: [GithubProvider, DiscordProvider],
+	pages: {
+		signIn: '/signin',
+	},
 	adapter: DrizzleAdapter(db, {
 		usersTable: users,
 		accountsTable: accounts,

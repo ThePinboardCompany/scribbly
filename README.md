@@ -17,6 +17,6 @@ Scribbly is a collaborative online whiteboard designed to help teams and individ
 - [x] **Authjs**
 - [ ] **tldraw**
 - [ ] **tldraw/sync**
-- [ ] **Cloudflare Pages**
+- [x] **Cloudflare Pages**
 
 > © 2024 The Pinboard Company. All Rights Reserved.

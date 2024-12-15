@@ -16,26 +16,26 @@ import { type AdapterAccount } from 'next-auth/adapters';
  */
 export const createTable = sqliteTableCreator(name => `scribbly_${name}`);
 
-export const posts = createTable(
-	'post',
-	{
-		id: int('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
-		name: text('name', { length: 256 }),
-		createdById: text('created_by', { length: 255 })
-			.notNull()
-			.references(() => users.id),
-		createdAt: int('created_at', { mode: 'timestamp' })
-			.default(sql`(unixepoch())`)
-			.notNull(),
-		updatedAt: int('updatedAt', { mode: 'timestamp' }).$onUpdate(
-			() => new Date(),
-		),
-	},
-	example => ({
-		createdByIdIdx: index('created_by_idx').on(example.createdById),
-		nameIndex: index('name_idx').on(example.name),
-	}),
-);
+// export const posts = createTable(
+// 	'post',
+// 	{
+// 		id: int('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+// 		name: text('name', { length: 256 }),
+// 		createdById: text('created_by', { length: 255 })
+// 			.notNull()
+// 			.references(() => users.id),
+// 		createdAt: int('created_at', { mode: 'timestamp' })
+// 			.default(sql`(unixepoch())`)
+// 			.notNull(),
+// 		updatedAt: int('updatedAt', { mode: 'timestamp' }).$onUpdate(
+// 			() => new Date(),
+// 		),
+// 	},
+// 	example => ({
+// 		createdByIdIdx: index('created_by_idx').on(example.createdById),
+// 		nameIndex: index('name_idx').on(example.name),
+// 	}),
+// );
 
 export const users = createTable('user', {
 	id: text('id', { length: 255 })
