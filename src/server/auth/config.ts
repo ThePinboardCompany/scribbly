@@ -29,6 +29,7 @@ export const authConfig = {
 	pages: {
 		signIn: '/signin',
 	},
+	debug: true,
 	adapter: DrizzleAdapter(db, {
 		usersTable: users,
 		accountsTable: accounts,
