@@ -1,0 +1,8 @@
+{
+	"Edge Runtime": {
+		"scope": "javascript,typescript,javascriptreact,typescriptreact",
+		"prefix": "edge",
+		"body": ["export const runtime = 'edge';"],
+		"description": "Add Edge Runtime",
+	},
+}
