@@ -1,6 +1,6 @@
 export const runtime = 'edge';
 
-import { signIn } from '~/server/auth';
+import { auth, signIn } from '~/server/auth';
 import { Button } from '~/components/ui/button';
 import {
 	Card,
@@ -12,6 +12,7 @@ import {
 } from '~/components/ui/card';
 import { capitalizeFristChar } from '~/lib/utils';
 import { type Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
 const providers = ['github', 'discord'];
 
@@ -19,7 +20,10 @@ export const metadata: Metadata = {
 	title: 'Sign In - Scribbly',
 };
 
-export default function SignIn() {
+export default async function SignIn() {
+	const session = await auth();
+	if (session) return redirect('/dashboard');
+
 	return (
 		<div className="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
 			<div className="w-full max-w-md">
@@ -33,7 +37,7 @@ export default function SignIn() {
 					<CardContent className="space-y-4">
 						{providers.map(provider => (
 							<form
-								action={async () => {
+								action={async _formData => {
 									'use server';
 									await signIn(provider, { redirectTo: '/dashboard' });
 								}}

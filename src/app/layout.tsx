@@ -1,8 +1,13 @@
 import '~/styles/globals.css';
+import { Inter } from 'next/font/google';
 
 import { type Metadata } from 'next';
-import { RootNavBar } from '~/components/root-nav-bar';
 import { ThemeProvider } from 'next-themes';
+
+const inter = Inter({
+	subsets: ['latin'],
+	variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
 	title: 'Scribbly - Scribble your mind in realtime',
@@ -58,7 +63,7 @@ export default function RootLayout({
 	children,
 }: Readonly<{ children: React.ReactNode }>) {
 	return (
-		<html lang="en" suppressHydrationWarning>
+		<html lang="en" suppressHydrationWarning className={inter.variable}>
 			<head>
 				<link rel="preload" href="https://rsms.me/inter/inter.css" as="style" />
 				<link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
@@ -71,7 +76,6 @@ export default function RootLayout({
 					enableSystem
 					enableColorScheme
 				>
-					<RootNavBar />
 					{children}
 				</ThemeProvider>
 			</body>

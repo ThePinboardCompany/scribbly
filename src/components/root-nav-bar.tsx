@@ -7,7 +7,7 @@ import {
 	NavigationMenuList,
 	navigationMenuTriggerStyle,
 } from '~/components/ui/navigation-menu';
-import { UserAvatar } from '~/components/user-avatar';
+import { UserAvatar } from '~/components/user-avatar/user-avatar';
 
 export function RootNavBar() {
 	return (
@@ -35,7 +35,9 @@ export function RootNavBar() {
 					</NavigationMenuLink>
 				</NavigationMenuItem>
 				<NavigationMenuItem>
-					<UserAvatar />
+					<div className="ml-auto flex items-center space-x-4">
+						<UserAvatar view="roundedavatar" />
+					</div>
 				</NavigationMenuItem>
 			</NavigationMenuList>
 		</NavigationMenu>

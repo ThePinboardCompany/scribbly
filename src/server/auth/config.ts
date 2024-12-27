@@ -16,7 +16,7 @@ import {
 // 	interface Session extends DefaultSession {
 // 		user: {
 // 			id: string;
-// 			// role: UserRole;
+// 			role: UserRole;
 // 		} & DefaultSession['user'];
 // 	}
 
@@ -29,14 +29,17 @@ export const authConfig = {
 	providers: [GithubProvider, DiscordProvider],
 	pages: {
 		signIn: '/signin',
+		signOut: '/signout',
 	},
-	debug: true,
 	adapter: DrizzleAdapter(db, {
 		usersTable: users,
 		accountsTable: accounts,
 		sessionsTable: sessions,
 		verificationTokensTable: verificationTokens,
 	}),
+	session: {
+		strategy: 'jwt',
+	},
 	// callbacks: {
 	// 	session: ({ session, user }) => ({
 	// 		...session,
