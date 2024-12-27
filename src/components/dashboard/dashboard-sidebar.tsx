@@ -14,6 +14,7 @@ import {
 import { PenLine } from 'lucide-react';
 import { UserAvatar } from '~/components/user-avatar';
 import { DashboardSidebarCategory } from '~/components/dashboard';
+import { Suspense } from 'react';
 
 export function DashboardSidebar() {
 	return (
@@ -42,7 +43,9 @@ export function DashboardSidebar() {
 					</SidebarGroupLabel>
 					<SidebarGroupContent>
 						<SidebarMenu>
-							<DashboardSidebarCategory />
+							<Suspense>
+								<DashboardSidebarCategory />
+							</Suspense>
 						</SidebarMenu>
 					</SidebarGroupContent>
 				</SidebarGroup>
