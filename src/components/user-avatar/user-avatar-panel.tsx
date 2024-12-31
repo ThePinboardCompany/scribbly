@@ -71,15 +71,13 @@ export function UserAvatarPanel({ session }: { session: Session | null }) {
 				<ThemeButton />
 				{session ? (
 					<DropdownMenuItem>
-						<form action={() => redirect('/signout')}>
-							<button
-								type="submit"
-								className="flex flex-row items-center justify-center gap-2"
-							>
-								<LogOut className="mr-2 h-4 w-4" />
-								<span>Sign out</span>
-							</button>
-						</form>
+						<button
+							className="flex flex-row items-center justify-center gap-2"
+							onClick={() => redirect('/signout')}
+						>
+							<LogOut className="mr-2 h-4 w-4" />
+							<span>Sign out</span>
+						</button>
 					</DropdownMenuItem>
 				) : (
 					<DropdownMenuItem>

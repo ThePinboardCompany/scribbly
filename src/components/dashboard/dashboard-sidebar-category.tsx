@@ -45,8 +45,7 @@ export function DashboardSidebarCategory() {
 	const searchParams = useSearchParams();
 	const [tab, setTab] = useState(() => {
 		const initialTab =
-			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-			searchParams.get('tab') || window.localStorage.getItem('tab') || 'all';
+			searchParams.get('tab') || localStorage.getItem('tab') || 'all';
 		return tabs.includes(initialTab) ? initialTab : 'all';
 	});
 
@@ -62,7 +61,7 @@ export function DashboardSidebarCategory() {
 	const handleTabChange = (tab: string) => {
 		if (!tabs.includes(tab)) return;
 		router.push(pathname + '?' + createQueryString('tab', tab));
-		window.localStorage.setItem('tab', tab);
+		localStorage.setItem('tab', tab);
 		setTab(tab);
 	};
 

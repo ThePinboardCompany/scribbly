@@ -2,7 +2,7 @@ export const runtime = 'edge';
 
 import { type Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { DashboardContent, DashboardHeader } from '~/components/dashboard';
+import { DashboardContent } from '~/components/dashboard';
 import { auth } from '~/server/auth';
 
 export const metadata: Metadata = {
@@ -73,12 +73,5 @@ export default async function DashboardPage() {
 	const session = await auth();
 	if (!session) return redirect('/signin');
 
-	return (
-		<>
-			<DashboardHeader title="All Whiteboards" />
-			<div className="flex-1 overflow-auto">
-				<DashboardContent whiteboards={allWhiteboards} />
-			</div>
-		</>
-	);
+	return <DashboardContent whiteboards={allWhiteboards} />;
 }

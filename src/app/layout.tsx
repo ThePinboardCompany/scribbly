@@ -10,7 +10,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-	title: 'Scribbly - Scribble your mind in realtime',
+	title:
+		'Scribbly - Collaborate, sketch, and create on your digital whiteboard in real time.',
 	description:
 		'A collaborative online whiteboard to brainstorm, plan, and visualize ideas in real-time',
 	applicationName: 'Scribbly',

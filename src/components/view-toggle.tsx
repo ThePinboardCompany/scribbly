@@ -2,12 +2,11 @@
 
 import { LayoutGrid, LayoutList, Table2 } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '~/components/ui/toggle-group';
-
-type ViewOption = 'small' | 'medium' | 'large';
+import { type ViewType } from '~/lib/utils';
 
 interface ViewToggleProps {
-	view: ViewOption;
-	onViewChange: (view: ViewOption) => void;
+	view: ViewType;
+	onViewChange: (view: ViewType) => void;
 }
 
 export function ViewToggle({ view, onViewChange }: ViewToggleProps) {
@@ -15,7 +14,7 @@ export function ViewToggle({ view, onViewChange }: ViewToggleProps) {
 		<ToggleGroup
 			type="single"
 			value={view || 'medium'}
-			onValueChange={value => onViewChange(value as ViewOption)}
+			onValueChange={value => onViewChange(value as ViewType)}
 		>
 			<ToggleGroupItem value="small" aria-label="Small view">
 				<LayoutList className="h-4 w-4" />

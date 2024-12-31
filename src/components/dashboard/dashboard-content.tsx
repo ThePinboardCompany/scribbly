@@ -1,8 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import WhiteboardList from '~/components/whiteboard-list';
-import { ViewToggle } from '~/components/view-toggle';
+import { useView } from '~/lib/view-context';
 
 interface DashboardContentProps {
 	whiteboards: {
@@ -15,13 +14,9 @@ interface DashboardContentProps {
 }
 
 export function DashboardContent({ whiteboards }: DashboardContentProps) {
-	const [view, setView] = useState<'small' | 'medium' | 'large'>('medium');
-
+	const [view] = useView();
 	return (
-		<main className="mx-auto max-w-7xl flex-1 space-y-8 p-4 md:p-6">
-			<div className="flex justify-end">
-				<ViewToggle view={view} onViewChange={setView} />
-			</div>
+		<main className="flex-1 space-y-8 p-4 md:p-6">
 			<WhiteboardList whiteboards={whiteboards} view={view} />
 		</main>
 	);

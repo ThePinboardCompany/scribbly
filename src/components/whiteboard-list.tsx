@@ -23,8 +23,8 @@ export default function WhiteboardList({
 		{
 			small: 'grid-cols-2 md:grid-cols-4 lg:grid-cols-6',
 			medium: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
-			large: 'grid-cols-1 md:grid-cols-2',
-		}[view] || 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
+			large: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+		}[view] || 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4';
 
 	return (
 		<ul className={`grid gap-4 ${gridClass}`}>
@@ -73,7 +73,7 @@ export default function WhiteboardList({
 						<Button
 							variant="outline"
 							size={view === 'small' ? 'sm' : 'default'}
-							className={`w-full ${view === 'small' ? 'text-xs' : ''}`}
+							className={`w-full ${view === 'small' ? 'mt-2 text-xs' : ''}`}
 						>
 							{view === 'small' ? 'Open' : 'Open Whiteboard'}
 						</Button>

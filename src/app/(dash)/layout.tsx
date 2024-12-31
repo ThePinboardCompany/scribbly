@@ -1,5 +1,7 @@
-import { DashboardSidebar } from '~/components/dashboard';
-import { SidebarProvider } from '~/components/ui/sidebar';
+import { DashboardSidebar, DashboardHeader } from '~/components/dashboard';
+import { SidebarInset, SidebarProvider } from '~/components/ui/sidebar';
+import { SessionProvider } from 'next-auth/react';
+import { ViewProvider } from '~/lib/view-context';
 
 export default function DashboardLayout({
 	children,
@@ -7,11 +9,16 @@ export default function DashboardLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<SidebarProvider defaultOpen={true}>
-			<div className="flex h-screen overflow-hidden">
+		<ViewProvider>
+			<SidebarProvider defaultOpen={true}>
 				<DashboardSidebar />
-				<div className="flex flex-1 flex-col overflow-hidden">{children}</div>
-			</div>
-		</SidebarProvider>
+				<SidebarInset>
+					<SessionProvider>
+						<DashboardHeader />
+					</SessionProvider>
+					<div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
+				</SidebarInset>
+			</SidebarProvider>
+		</ViewProvider>
 	);
 }
