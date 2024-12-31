@@ -2,7 +2,7 @@
 
 import { LayoutGrid, LayoutList, Table2 } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '~/components/ui/toggle-group';
-import { type ViewType } from '~/lib/utils';
+import { type ViewType } from '~/lib/view-context';
 
 interface ViewToggleProps {
 	view: ViewType;
