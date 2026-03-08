@@ -108,7 +108,7 @@ export function Preview() {
             </div>
 
             {/* Canvas */}
-            <div className="relative h-[500px] bg-[#fafafa] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-[size:20px_20px]">
+            <div className="relative h-[500px] bg-canvas bg-[radial-gradient(var(--canvas-grid)_1px,transparent_1px)] bg-[size:20px_20px]">
               {/* Sticky notes */}
               <div className="absolute top-12 left-24 w-44 h-36 bg-yellow-100 rounded-lg shadow-lg p-4 rotate-[-2deg] hover:scale-105 transition-transform cursor-pointer group">
                 <div className="font-medium text-yellow-900 mb-2">
