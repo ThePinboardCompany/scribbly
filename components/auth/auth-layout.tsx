@@ -147,10 +147,6 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
         }`}
       >
         <div className="max-w-lg space-y-8">
-          <Link href="/" className="text-3xl font-bold text-white">
-            Scribbly
-          </Link>
-
           <div className="space-y-4">
             <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight text-balance">
               Think visually with Scribbly
@@ -173,13 +169,6 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
         }`}
       >
         <div className="w-full max-w-md">
-          {/* Mobile Logo */}
-          <div className="lg:hidden text-center mb-8">
-            <Link href="/" className="text-2xl font-bold text-white">
-              Scribbly
-            </Link>
-          </div>
-
           {/* Auth Card */}
           <div className="bg-card rounded-2xl shadow-2xl p-8 border border-border/50">
             {children}
