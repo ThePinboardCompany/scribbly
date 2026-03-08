@@ -12,7 +12,7 @@ export function Footer() {
               href="#"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              Docs
+              Documentation
             </a>
             <a
               href="#"
@@ -20,16 +20,16 @@ export function Footer() {
             >
               GitHub
             </a>
-            <a
+            {/* <a
               href="#"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
               Privacy
-            </a>
+            </a> */}
           </div>
 
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} Scribbly. All rights reserved.
+            &copy; 2024 Scribbly. All rights reserved.
           </p>
         </div>
       </div>

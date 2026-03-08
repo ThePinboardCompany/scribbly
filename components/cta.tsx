@@ -41,15 +41,14 @@ export function CTA() {
               Start your next idea on Scribbly
             </h2>
             <p className="text-xl text-background/70 mb-10 max-w-xl mx-auto">
-              Join thousands of teams turning chaos into clarity. Free to start,
-              no credit card required.
+              Join thousands of teams turning chaos into clarity. Free to start, visualize your ideas in seconds.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="px-8 py-4 bg-background text-foreground rounded-full font-medium text-lg hover:opacity-90 transition-all hover:scale-105">
                 Create Your Board
               </button>
               <button className="px-8 py-4 bg-transparent border-2 border-background/30 text-background rounded-full font-medium text-lg hover:bg-background/10 transition-all hover:scale-105">
-                Talk to Sales
+                Learn More
               </button>
             </div>
           </div>

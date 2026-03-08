@@ -150,11 +150,11 @@ export function Hero() {
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full">
               <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
               <span className="text-sm font-medium text-primary">
-                New: Infinite Canvas
+                Scribbly is still Under Development!
               </span>
-              <span className="text-sm text-primary hover:underline cursor-pointer">
+              <a href="#" className="text-sm text-primary hover:underline cursor-pointer">
                 Learn more
-              </span>
+              </a>
             </div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-balance">
@@ -174,7 +174,7 @@ export function Hero() {
                 Start Brainstorming
               </button>
               <button className="px-8 py-4 bg-transparent border-2 border-border text-foreground rounded-full font-medium text-lg hover:bg-secondary transition-all hover:scale-105">
-                View Demo
+                Learn More
               </button>
             </div>
           </div>

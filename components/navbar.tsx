@@ -69,22 +69,22 @@ export function Navbar() {
 
           <div className="hidden md:flex items-center gap-8">
             <a
-              href="#features"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Features
-            </a>
-            <a
-              href="#preview"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Demo
-            </a>
-            <a
-              href="#cta"
+              href="#"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
               About
+            </a>
+            <a
+              href="#"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Changelog
+            </a>
+            <a
+              href="#"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Documentation
             </a>
           </div>
 
