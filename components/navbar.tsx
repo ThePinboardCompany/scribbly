@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTheme } from "./theme-provider";
+import Link from "next/link";
 
 function SunIcon({ className }: { className?: string }) {
   return (
@@ -102,12 +103,18 @@ export function Navbar() {
                 )}
               </button>
             )}
-            <button className="hidden sm:block px-4 py-2 text-muted-foreground hover:text-foreground transition-colors">
+            <Link
+              href="/signin"
+              className="hidden sm:block px-4 py-2 text-muted-foreground hover:text-foreground transition-colors"
+            >
               Sign In
-            </button>
-            <button className="px-5 py-2.5 bg-foreground text-background rounded-full font-medium hover:opacity-90 transition-opacity">
+            </Link>
+            <Link
+              href="/signup"
+              className="px-5 py-2.5 bg-foreground text-background rounded-full font-medium hover:opacity-90 transition-opacity"
+            >
               Get Started
-            </button>
+            </Link>
           </div>
         </div>
       </div>
