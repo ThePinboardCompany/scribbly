@@ -16,6 +16,27 @@
   --border: #e5e7eb;
   --ring: #7c3aed;
   --radius: 0.75rem;
+  --canvas: #fafafa;
+  --canvas-grid: #e5e7eb;
+}
+
+.dark {
+  --background: #09090b;
+  --foreground: #fafafa;
+  --card: #18181b;
+  --card-foreground: #fafafa;
+  --primary: #a78bfa;
+  --primary-foreground: #09090b;
+  --secondary: #27272a;
+  --secondary-foreground: #fafafa;
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+  --accent: #f472b6;
+  --accent-foreground: #09090b;
+  --border: #3f3f46;
+  --ring: #a78bfa;
+  --canvas: #18181b;
+  --canvas-grid: #3f3f46;
 }
 
 @theme inline {
@@ -33,6 +54,8 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-border: var(--border);
   --color-ring: var(--ring);
+  --color-canvas: var(--canvas);
+  --color-canvas-grid: var(--canvas-grid);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
