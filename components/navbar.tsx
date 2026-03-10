@@ -64,25 +64,25 @@ export function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <a href="#" className="text-2xl font-bold text-foreground">
+          <a href="/" className="text-2xl font-bold text-foreground">
             Scribbly
           </a>
 
           <div className="hidden md:flex items-center gap-8">
             <a
-              href="#"
+              href="/about"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
               About
             </a>
             <a
-              href="#"
+              href="/changelog"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
               Changelog
             </a>
             <a
-              href="#"
+              href="/docs"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
               Documentation
