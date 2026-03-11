@@ -1,5 +1,7 @@
 "use client";
 
+import { useSignIn } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -80,21 +82,145 @@ function EyeOffIcon({ className }: { className?: string }) {
   );
 }
 
+function FieldError({ message }: { message: string }) {
+  return (
+    <div className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-red-500/50 bg-red-500/10">
+      <svg
+        className="w-4 h-4 text-red-500 shrink-0 mr-1.5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+        />
+      </svg>
+      <p className="text-sm">{message}</p>
+    </div>
+  );
+}
+
 export function SignInForm() {
+  const { signIn, errors, fetchStatus } = useSignIn();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+  const [formData, setFormData] = useState({ identifier: "", password: "" });
+  const [verificationCode, setVerificationCode] = useState("");
+
+  const isLoading = fetchStatus === "fetching";
+
+  const handleSubmit = async (formData: FormData) => {
+  const identifier = formData.get("identifier") as string;
+  const password = formData.get("password") as string;
+
+  const { error } = await signIn.password({
+    identifier,
+    password,
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsLoading(false);
+  if (error) return;
+
+  if (signIn.status === "complete") {
+    await signIn.finalize({
+      navigate: ({ decorateUrl }) => {
+        const url = decorateUrl("/dashboard");
+        if (url.startsWith("http")) {
+          window.location.href = url;
+        } else {
+          router.push(url);
+        }
+      },
+    });
+  } else if (
+    signIn.status === "needs_second_factor" ||
+    signIn.status === "needs_client_trust"
+  ) {
+    await signIn.mfa.sendEmailCode();
+  }
   };
+
+const handleVerify = async (formData: FormData) => {
+  const code = formData.get("code") as string;
+
+  await signIn.mfa.verifyEmailCode({ code });
+
+  if (signIn.status === "complete") {
+    await signIn.finalize({
+      navigate: ({ decorateUrl }) => {
+        const url = decorateUrl("/dashboard");
+        if (url.startsWith("http")) {
+          window.location.href = url;
+        } else {
+          router.push(url);
+        }
+      },
+    });
+  }
+};
+
+  if (
+    signIn.status === "needs_second_factor" ||
+    signIn.status === "needs_client_trust"
+  ) {
+    return (
+      <div className="space-y-6">
+        <div className="text-center space-y-2">
+          <h2 className="text-2xl font-bold text-card-foreground">
+            Check your email
+          </h2>
+          <p className="text-muted-foreground">
+            We sent a verification code to your inbox.
+          </p>
+        </div>
+
+        <form action={handleVerify} className="space-y-5">
+          <div className="space-y-2">
+            <label
+              htmlFor="code"
+              className="block text-sm font-medium text-card-foreground"
+            >
+              Verification code
+            </label>
+            <input
+              id="code"
+              name="code"
+              type="text"
+              placeholder="Enter your code"
+              value={verificationCode}
+              onChange={(e) => setVerificationCode(e.target.value)}
+              className="w-full px-4 py-3 bg-secondary border border-border rounded-xl text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+              required
+            />
+          </div>
+
+          {errors.fields.code && (
+            <FieldError message={errors.fields.code.message} />
+          )}            
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full py-3.5 bg-primary text-primary-foreground rounded-xl font-semibold text-base hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-card transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {isLoading ? "Verifying..." : "Verify"}
+          </button>
+        </form>
+
+        <p className="text-center text-muted-foreground text-sm">
+          Didn&apos;t receive a code?{" "}
+          <button
+            onClick={() => signIn.mfa.sendEmailCode()}
+            className="text-primary font-medium hover:text-primary/80 transition-colors"
+          >
+            Resend
+          </button>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -107,27 +233,26 @@ export function SignInForm() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form action={handleSubmit} className="space-y-5">
         {/* Email Field */}
         <div className="space-y-2">
           <label
-            htmlFor="email"
+            htmlFor="identifier"
             className="block text-sm font-medium text-card-foreground"
           >
-            Email
+            Email or username
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <MailIcon className="w-5 h-5 text-muted-foreground" />
             </div>
             <input
-              id="email"
-              type="email"
-              placeholder="you@example.com"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
+              id="identifier"
+              name="identifier"
+              type="text"
+              placeholder="Email or username"
+              value={formData.identifier}
+              onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
               className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-xl text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               required
             />
@@ -147,13 +272,12 @@ export function SignInForm() {
               <LockIcon className="w-5 h-5 text-muted-foreground" />
             </div>
             <input
-              id="password"
+              id="password" 
+              name="password"
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
               value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               className="w-full pl-10 pr-12 py-3 bg-secondary border border-border rounded-xl text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               required
             />
@@ -171,6 +295,14 @@ export function SignInForm() {
             </button>
           </div>
         </div>
+
+        {errors.fields.identifier && (
+          <FieldError message={errors.fields.identifier.message} />
+        )}
+
+        {errors.fields.password && (
+          <FieldError message={errors.fields.password.message} />
+        )}
 
         {/* Forgot Password */}
         <div className="flex justify-end">
@@ -190,24 +322,9 @@ export function SignInForm() {
         >
           {isLoading ? (
             <span className="flex items-center justify-center gap-2">
-              <svg
-                className="animate-spin w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                />
+              <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
               Signing in...
             </span>

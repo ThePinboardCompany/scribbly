@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Sign In - Scribbly",
-  description: "Sign in to your Scribbly account to start brainstorming visually.",
 };
 
 export default function SignInPage() {

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function Footer() {
   return (
     <footer className="py-12 border-t border-border">
@@ -8,18 +10,20 @@ export function Footer() {
           </div>
 
           <div className="flex items-center gap-8">
-            <a
-              href="#"
+            <Link
+              href="/docs"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
               Documentation
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              href="https://github.com/scribbly/scribbly"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
               GitHub
-            </a>
+            </Link>
             {/* <a
               href="#"
               className="text-muted-foreground hover:text-foreground transition-colors"

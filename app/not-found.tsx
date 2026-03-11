@@ -43,7 +43,7 @@ function DecorativeElements() {
       </FloatingShape>
 
       <FloatingShape
-        className="bottom-1/3 left-1/4 w-12 h-12 bg-blue-300/40 rounded-lg shadow-md p-1 rotate-[2deg]"
+        className="bottom-1/3 left-1/4 w-12 h-12 bg-blue-300/40 rounded-lg shadow-md p-1 rotate-2"
         delay={0.6}
       >
         <div className="w-full h-0.5 bg-blue-400/60 rounded" />
@@ -97,13 +97,14 @@ export default function NotFound() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
   return (
     <div className="min-h-screen w-full flex relative overflow-hidden">
       {/* Animated gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-600 via-blue-500 to-pink-500 animate-gradient-shift" />
+      <div className="absolute inset-0 bg-linear-to-br from-purple-600 via-blue-500 to-pink-500 animate-gradient-shift" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(124,58,237,0.2),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(236,72,153,0.2),transparent_50%)]" />
 

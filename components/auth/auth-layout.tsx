@@ -43,7 +43,7 @@ function WhiteboardIllustration() {
         <div className="relative h-48 bg-white/5 rounded-xl overflow-hidden">
           {/* Sticky notes */}
           <div
-            className="absolute top-3 left-3 w-20 h-20 bg-yellow-300/90 rounded-lg shadow-lg p-2 rotate-[-3deg] animate-float"
+            className="absolute top-3 left-3 w-20 h-20 bg-yellow-300/90 rounded-lg shadow-lg p-2 -rotate-3 animate-float"
             style={{ animationDelay: "0s" }}
           >
             <div className="w-full h-1.5 bg-yellow-500/50 rounded mb-1.5" />
@@ -51,7 +51,7 @@ function WhiteboardIllustration() {
           </div>
 
           <div
-            className="absolute top-6 right-6 w-20 h-20 bg-pink-300/90 rounded-lg shadow-lg p-2 rotate-[2deg] animate-float"
+            className="absolute top-6 right-6 w-20 h-20 bg-pink-300/90 rounded-lg shadow-lg p-2 rotate-2 animate-float"
             style={{ animationDelay: "0.5s" }}
           >
             <div className="w-full h-1.5 bg-pink-500/50 rounded mb-1.5" />
@@ -59,7 +59,7 @@ function WhiteboardIllustration() {
           </div>
 
           <div
-            className="absolute bottom-6 left-1/4 w-24 h-20 bg-blue-300/90 rounded-lg shadow-lg p-2 rotate-[1deg] animate-float"
+            className="absolute bottom-6 left-1/4 w-24 h-20 bg-blue-300/90 rounded-lg shadow-lg p-2 rotate-1 animate-float"
             style={{ animationDelay: "1s" }}
           >
             <div className="w-full h-1.5 bg-blue-500/50 rounded mb-1.5" />
@@ -115,6 +115,7 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 

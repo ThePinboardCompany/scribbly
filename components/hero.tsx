@@ -50,7 +50,7 @@ function WhiteboardIllustration() {
           {/* Sticky notes */}
           <FloatingElement
             delay={0}
-            className="absolute top-4 left-4 w-24 h-24 bg-yellow-200 rounded-lg shadow-md p-3 rotate-[-3deg]"
+            className="absolute top-4 left-4 w-24 h-24 bg-yellow-200 rounded-lg shadow-md p-3 -rotate-3"
           >
             <div className="w-full h-2 bg-yellow-400/50 rounded mb-2" />
             <div className="w-3/4 h-2 bg-yellow-400/50 rounded" />
@@ -58,7 +58,7 @@ function WhiteboardIllustration() {
 
           <FloatingElement
             delay={0.5}
-            className="absolute top-8 right-8 w-24 h-24 bg-pink-200 rounded-lg shadow-md p-3 rotate-[2deg]"
+            className="absolute top-8 right-8 w-24 h-24 bg-pink-200 rounded-lg shadow-md p-3 rotate-2"
           >
             <div className="w-full h-2 bg-pink-400/50 rounded mb-2" />
             <div className="w-2/3 h-2 bg-pink-400/50 rounded" />
@@ -66,7 +66,7 @@ function WhiteboardIllustration() {
 
           <FloatingElement
             delay={1}
-            className="absolute bottom-8 left-1/4 w-28 h-24 bg-blue-200 rounded-lg shadow-md p-3 rotate-[1deg]"
+            className="absolute bottom-8 left-1/4 w-28 h-24 bg-blue-200 rounded-lg shadow-md p-3 rotate-1"
           >
             <div className="w-full h-2 bg-blue-400/50 rounded mb-2" />
             <div className="w-4/5 h-2 bg-blue-400/50 rounded" />
@@ -130,13 +130,14 @@ export function Hero() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+      <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-accent/5" />
 
       <div className="max-w-7xl mx-auto px-6 py-20 w-full">
         <div className="grid lg:grid-cols-2 gap-12 items-center">

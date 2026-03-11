@@ -108,9 +108,9 @@ export function Preview() {
             </div>
 
             {/* Canvas */}
-            <div className="relative h-[500px] bg-canvas bg-[radial-gradient(var(--canvas-grid)_1px,transparent_1px)] bg-[size:20px_20px]">
+            <div className="relative h-125 bg-canvas bg-[radial-gradient(var(--canvas-grid)_1px,transparent_1px)] bg-size-[20px_20px]">
               {/* Sticky notes */}
-              <div className="absolute top-12 left-24 w-44 h-36 bg-yellow-100 rounded-lg shadow-lg p-4 rotate-[-2deg] hover:scale-105 transition-transform cursor-pointer group">
+              <div className="absolute top-12 left-24 w-44 h-36 bg-yellow-100 rounded-lg shadow-lg p-4 -rotate-2 hover:scale-105 transition-transform cursor-pointer group">
                 <div className="font-medium text-yellow-900 mb-2">
                   User Research
                 </div>
@@ -122,7 +122,7 @@ export function Preview() {
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
 
-              <div className="absolute top-8 left-80 w-44 h-36 bg-pink-100 rounded-lg shadow-lg p-4 rotate-[1deg] hover:scale-105 transition-transform cursor-pointer group">
+              <div className="absolute top-8 left-80 w-44 h-36 bg-pink-100 rounded-lg shadow-lg p-4 rotate-1 hover:scale-105 transition-transform cursor-pointer group">
                 <div className="font-medium text-pink-900 mb-2">
                   Design Sprint
                 </div>
@@ -133,7 +133,7 @@ export function Preview() {
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-pink-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
 
-              <div className="absolute top-48 left-52 w-44 h-36 bg-blue-100 rounded-lg shadow-lg p-4 rotate-[2deg] hover:scale-105 transition-transform cursor-pointer group">
+              <div className="absolute top-48 left-52 w-44 h-36 bg-blue-100 rounded-lg shadow-lg p-4 rotate-2 hover:scale-105 transition-transform cursor-pointer group">
                 <div className="font-medium text-blue-900 mb-2">
                   Development
                 </div>
@@ -176,7 +176,7 @@ export function Preview() {
                 </div>
               </div>
 
-              <div className="absolute bottom-24 right-32 w-40 h-32 bg-green-100 rounded-lg shadow-lg p-4 rotate-[-1deg] hover:scale-105 transition-transform cursor-pointer group">
+              <div className="absolute bottom-24 right-32 w-40 h-32 bg-green-100 rounded-lg shadow-lg p-4 -rotate-1 hover:scale-105 transition-transform cursor-pointer group">
                 <div className="font-medium text-green-900 mb-2">Launch</div>
                 <div className="text-sm text-green-700 space-y-1">
                   <div className="w-full h-2 bg-green-200 rounded" />
@@ -221,7 +221,7 @@ export function Preview() {
               </svg>
 
               {/* Cursor indicators */}
-              <div className="absolute top-32 left-[420px] animate-pulse">
+              <div className="absolute top-32 left-105 animate-pulse">
                 <div className="relative">
                   <svg
                     className="w-5 h-5 text-primary transform -rotate-12"
@@ -236,7 +236,7 @@ export function Preview() {
                 </div>
               </div>
 
-              <div className="absolute bottom-32 left-[500px] animate-pulse animation-delay-500">
+              <div className="absolute bottom-32 left-125 animate-pulse animation-delay-500">
                 <div className="relative">
                   <svg
                     className="w-5 h-5 text-accent transform -rotate-12"

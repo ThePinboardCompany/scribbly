@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTheme } from "./theme-provider";
+import { useTheme } from "@/components/theme-provider";
+import { useClerk } from "@clerk/nextjs";
 import Link from "next/link";
 
 function SunIcon({ className }: { className?: string }) {
@@ -40,12 +41,18 @@ function MoonIcon({ className }: { className?: string }) {
   );
 }
 
-export function Navbar() {
+interface NavbarProps {
+  isSignedIn: boolean;
+}
+
+export function Navbar({ isSignedIn }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { signOut } = useClerk();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -103,18 +110,37 @@ export function Navbar() {
                 )}
               </button>
             )}
-            <Link
-              href="/signin"
-              className="hidden sm:block px-4 py-2 text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/signup"
-              className="px-5 py-2.5 bg-foreground text-background rounded-full font-medium hover:opacity-90 transition-opacity"
-            >
-              Get Started
-            </Link>
+            {isSignedIn ? (
+              <button
+                onClick={() => signOut({ redirectUrl: "/" })}
+                className="hidden sm:block px-4 py-2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <Link
+                href="/signin"
+                className="hidden sm:block px-4 py-2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Sign In
+              </Link>
+            )}
+
+            {isSignedIn ? (
+              <Link
+                href="/dashboard"
+                className="px-5 py-2.5 bg-foreground text-background rounded-full font-medium hover:opacity-90 transition-opacity"
+              >
+                Go to Dashboard
+              </Link>
+            ) : (
+              <Link
+                href="/signup"
+                className="px-5 py-2.5 bg-foreground text-background rounded-full font-medium hover:opacity-90 transition-opacity"
+              >
+                Get Started
+              </Link>
+            )}
           </div>
         </div>
       </div>

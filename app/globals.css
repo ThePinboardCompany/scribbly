@@ -18,6 +18,7 @@
   --radius: 0.75rem;
   --canvas: #fafafa;
   --canvas-grid: #e5e7eb;
+  --warning: #EF4444;
 }
 
 .dark {
@@ -37,6 +38,7 @@
   --ring: #a78bfa;
   --canvas: #18181b;
   --canvas-grid: #3f3f46;
+  --warning: #EF4444;
 }
 
 @theme inline {
