@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 export function CTA() {
@@ -44,12 +45,12 @@ export function CTA() {
               Join thousands of teams turning chaos into clarity. Free to start, visualize your ideas in seconds.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-4 bg-background text-foreground rounded-full font-medium text-lg hover:opacity-90 transition-all hover:scale-105">
+              <Link href="/dashboard" className="px-8 py-4 bg-background text-foreground rounded-full font-medium text-lg hover:opacity-90 transition-all hover:scale-105">
                 Create Your Board
-              </button>
-              <button className="px-8 py-4 bg-transparent border-2 border-background/30 text-background rounded-full font-medium text-lg hover:bg-background/10 transition-all hover:scale-105">
+              </Link>
+              <Link href="/docs" className="px-8 py-4 bg-transparent border-2 border-background/30 text-background rounded-full font-medium text-lg hover:bg-background/10 transition-all hover:scale-105">
                 Learn More
-              </button>
+              </Link>
             </div>
           </div>
         </div>

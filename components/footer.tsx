@@ -11,6 +11,18 @@ export function Footer() {
 
           <div className="flex items-center gap-8">
             <Link
+              href="/about"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              About
+            </Link>
+            <Link
+              href="/changelog"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Changelog
+            </Link>
+            <Link
               href="/docs"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
@@ -24,12 +36,6 @@ export function Footer() {
             >
               GitHub
             </Link>
-            {/* <a
-              href="#"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Privacy
-            </a> */}
           </div>
 
           <p className="text-sm text-muted-foreground">

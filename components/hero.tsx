@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+
 
 function FloatingElement({
   children,
@@ -153,9 +155,9 @@ export function Hero() {
               <span className="text-sm font-medium text-primary">
                 Scribbly is still Under Development!
               </span>
-              <a href="#" className="text-sm text-primary hover:underline cursor-pointer">
+              <Link href="/changelog" className="text-sm text-primary hover:underline cursor-pointer">
                 Learn more
-              </a>
+              </Link>
             </div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-balance">
@@ -165,18 +167,16 @@ export function Hero() {
             </h1>
 
             <p className="text-xl text-muted-foreground max-w-lg leading-relaxed">
-              The collaborative whiteboard for teams who think in sketches,
-              sticky notes, and connections. Bring your ideas to life in
-              real-time.
+              The collaborative online whiteboard designed to help teams and individuals brainstorm, plan, and visualize ideas in real-time.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="px-8 py-4 bg-foreground text-background rounded-full font-medium text-lg hover:opacity-90 transition-all hover:scale-105">
+              <Link href="/sign-up" className="px-8 py-4 bg-foreground text-background rounded-full font-medium text-lg hover:opacity-90 transition-all hover:scale-105">
                 Start Brainstorming
-              </button>
-              <button className="px-8 py-4 bg-transparent border-2 border-border text-foreground rounded-full font-medium text-lg hover:bg-secondary transition-all hover:scale-105">
+              </Link>
+              <Link href="/docs" className="px-8 py-4 bg-transparent border-2 border-border text-foreground rounded-full font-medium text-lg hover:bg-secondary transition-all hover:scale-105">
                 Learn More
-              </button>
+              </Link>
             </div>
           </div>
 

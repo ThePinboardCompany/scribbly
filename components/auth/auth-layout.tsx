@@ -121,12 +121,10 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen w-full flex relative overflow-hidden">
-      {/* Gradient Background */}
       <div className="absolute inset-0 bg-linear-to-br from-purple-600 via-blue-500 to-pink-500" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(124,58,237,0.3),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(236,72,153,0.3),transparent_50%)]" />
 
-      {/* Floating shapes */}
       <FloatingShape
         className="w-64 h-64 bg-white/5 rounded-full blur-3xl top-20 left-10"
         delay={0}
@@ -140,10 +138,10 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
         delay={1}
       />
 
-      {/* Left Section - Desktop Only */}
       <div
         className={`hidden lg:flex flex-1 flex-col justify-center items-center p-12 relative z-10 transition-all duration-700 ${
           mounted ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
+          // "opacity-100 translate-x-0"
         }`}
       >
         <div className="max-w-lg space-y-8">
@@ -151,10 +149,8 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
             <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight text-balance">
               Think visually with Scribbly
             </h1>
-            <p className="text-lg text-white/80 leading-relaxed">
-              The collaborative whiteboard for teams who brainstorm in sketches,
-              sticky notes, and visual connections. Bring your ideas to life
-              together in real-time.
+            <p className="w-md text-lg text-white/80 leading-relaxed">
+              The collaborative online whiteboard designed to help teams and individuals brainstorm, plan, and visualize ideas in real-time.
             </p>
           </div>
 
@@ -162,7 +158,6 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      {/* Right Section - Auth Card */}
       <div
         className={`flex-1 flex items-center justify-center p-6 sm:p-8 relative z-10 transition-all duration-700 delay-150 ${
           mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"

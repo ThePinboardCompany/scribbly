@@ -1,121 +1,119 @@
 "use client";
 
+import { useSignUp } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
-
-function UserIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={2}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-      />
-    </svg>
-  );
-}
-
-function MailIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={2}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-      />
-    </svg>
-  );
-}
-
-function LockIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={2}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-      />
-    </svg>
-  );
-}
-
-function EyeIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={2}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-      />
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-      />
-    </svg>
-  );
-}
-
-function EyeOffIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={2}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
-      />
-    </svg>
-  );
-}
+import { UserIcon, MailIcon, LockIcon, EyeIcon, EyeOffIcon } from "@/components/ui/icons";
+import { FieldError } from "@/components/auth/ui/field-eror";
 
 export function SignUpForm() {
+  const { signUp, errors, fetchStatus } = useSignUp();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [verifying, setVerifying] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsLoading(false);
+  const isLoading = fetchStatus === "fetching";
+
+  const handleSubmit = async (formData: FormData) => {
+    setPasswordError("");
+
+    const password = formData.get("password") as string;
+    const confirmPassword = formData.get("confirmPassword") as string;
+
+    if (password !== confirmPassword) {
+      setPasswordError("Passwords do not match.");
+      return;
+    }
+
+    const { error } = await signUp.password({
+      emailAddress: formData.get("email") as string,
+      password,
+      username: formData.get("username") as string,
+      firstName: formData.get("firstName") as string,
+      lastName: formData.get("lastName") as string,
+    });
+
+    if (error) return;
+
+    await signUp.verifications.sendEmailCode();
+    setVerifying(true);
   };
+
+  const handleVerify = async (formData: FormData) => {
+    const code = formData.get("code") as string;
+
+    await signUp.verifications.verifyEmailCode({ code });
+
+    if (signUp.status === "complete") {
+      await signUp.finalize({
+        navigate: ({ decorateUrl }) => {
+          const url = decorateUrl("/dashboard");
+          if (url.startsWith("http")) {
+            window.location.href = url;
+          } else {
+            router.push(url);
+          }
+        },
+      });
+    }
+  };
+
+  if (verifying) {
+    return (
+      <div className="space-y-6">
+        <div className="text-center space-y-2">
+          <h2 className="text-2xl font-bold text-card-foreground">
+            Check your email
+          </h2>
+          <p className="text-muted-foreground">
+            We sent a verification code to your email address.
+          </p>
+        </div>
+
+        <form action={handleVerify} className="space-y-5">
+          <div className="space-y-2">
+            <label
+              htmlFor="code"
+              className="block text-sm font-medium text-card-foreground"
+            >
+              Verification code
+            </label>
+            <input
+              id="code"
+              name="code"
+              type="text"
+              placeholder="Enter your code"
+              className="w-full px-4 py-3 bg-secondary border border-border rounded-xl text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+              required
+            />
+            {errors.fields.code && (
+              <FieldError message={`Code ${errors.fields.code.message}`} />
+            )}
+          </div>
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full py-3.5 bg-primary text-primary-foreground rounded-xl font-semibold text-base hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-card transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {isLoading ? "Verifying..." : "Verify"}
+          </button>
+        </form>
+
+        <p className="text-center text-muted-foreground text-sm">
+          Didn&apos;t receive a code?{" "}
+          <button
+            onClick={() => signUp.verifications.sendEmailCode()}
+            className="text-primary font-medium hover:text-primary/80 transition-colors"
+          >
+            Resend
+          </button>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -124,38 +122,79 @@ export function SignUpForm() {
           Create your Scribbly account
         </h2>
         <p className="text-muted-foreground">
-          Start brainstorming visually today.
+          Join Scribbly and visualize your thoughts!
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Name Field */}
+      <form action={handleSubmit} className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label
+              htmlFor="firstName"
+              className="block text-sm font-medium text-card-foreground"
+            >
+              First Name
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <UserIcon className="w-5 h-5 text-muted-foreground" />
+              </div>
+              <input
+                id="firstName"
+                name="firstName"
+                type="text"
+                placeholder="First name"
+                className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-xl text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label
+              htmlFor="lastName"
+              className="block text-sm font-medium text-card-foreground"
+            >
+              Last Name
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <UserIcon className="w-5 h-5 text-muted-foreground" />
+              </div>
+              <input
+                id="lastName"
+                name="lastName"
+                type="text"
+                placeholder="Last name"
+                className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-xl text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="space-y-2">
           <label
-            htmlFor="name"
+            htmlFor="username"
             className="block text-sm font-medium text-card-foreground"
           >
-            Name
+            Username
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <UserIcon className="w-5 h-5 text-muted-foreground" />
             </div>
             <input
-              id="name"
+              id="username"
+              name="username"
               type="text"
-              placeholder="Your name"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
+              placeholder="Choose a username"
               className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-xl text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               required
             />
           </div>
         </div>
 
-        {/* Email Field */}
         <div className="space-y-2">
           <label
             htmlFor="email"
@@ -169,19 +208,15 @@ export function SignUpForm() {
             </div>
             <input
               id="email"
+              name="email"
               type="email"
               placeholder="you@example.com"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
               className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-xl text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               required
             />
           </div>
         </div>
 
-        {/* Password Field */}
         <div className="space-y-2">
           <label
             htmlFor="password"
@@ -195,12 +230,9 @@ export function SignUpForm() {
             </div>
             <input
               id="password"
+              name="password"
               type={showPassword ? "text" : "password"}
               placeholder="Create a password"
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
               className="w-full pl-10 pr-12 py-3 bg-secondary border border-border rounded-xl text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               required
             />
@@ -219,7 +251,6 @@ export function SignUpForm() {
           </div>
         </div>
 
-        {/* Confirm Password Field */}
         <div className="space-y-2">
           <label
             htmlFor="confirmPassword"
@@ -233,24 +264,21 @@ export function SignUpForm() {
             </div>
             <input
               id="confirmPassword"
-              type={showConfirmPassword ? "text" : "password"}
+              name="confirmPassword"
+              type={showPassword ? "text" : "password"}
               placeholder="Confirm your password"
-              value={formData.confirmPassword}
-              onChange={(e) =>
-                setFormData({ ...formData, confirmPassword: e.target.value })
-              }
               className="w-full pl-10 pr-12 py-3 bg-secondary border border-border rounded-xl text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               required
             />
             <button
               type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              onClick={() => setShowPassword(!showPassword)}
               className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted-foreground hover:text-card-foreground transition-colors"
               aria-label={
-                showConfirmPassword ? "Hide password" : "Show password"
+                showPassword ? "Hide password" : "Show password"
               }
             >
-              {showConfirmPassword ? (
+              {showPassword ? (
                 <EyeOffIcon className="w-5 h-5" />
               ) : (
                 <EyeIcon className="w-5 h-5" />
@@ -259,7 +287,25 @@ export function SignUpForm() {
           </div>
         </div>
 
-        {/* Submit Button */}
+        {errors.fields.firstName && (
+          <FieldError message={errors.fields.firstName.message} />
+        )}
+        {errors.fields.lastName && (
+          <FieldError message={errors.fields.lastName.message} />
+        )}
+        {errors.fields.username && (
+          <FieldError message={errors.fields.username.message} />
+        )}
+        {errors.fields.emailAddress && (
+          <FieldError message={errors.fields.emailAddress.message} />
+        )}
+        {errors.fields.password && (
+          <FieldError message={errors.fields.password.message} />
+        )}
+        {passwordError && <FieldError message={passwordError} />}
+
+        <div id="clerk-captcha" />
+
         <button
           type="submit"
           disabled={isLoading}
@@ -294,7 +340,6 @@ export function SignUpForm() {
         </button>
       </form>
 
-      {/* Sign In Link */}
       <p className="text-center text-muted-foreground">
         Already have an account?{" "}
         <Link

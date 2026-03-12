@@ -4,113 +4,20 @@ import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
+import { UserIcon, MailIcon, LockIcon, EyeIcon, EyeOffIcon } from "@/components/ui/icons";
+import { FieldError } from "@/components/auth/ui/field-eror";
 
-function MailIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={2}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-      />
-    </svg>
-  );
-}
-
-function LockIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={2}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-      />
-    </svg>
-  );
-}
-
-function EyeIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={2}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-      />
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-      />
-    </svg>
-  );
-}
-
-function EyeOffIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={2}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
-      />
-    </svg>
-  );
-}
-
-function FieldError({ message }: { message: string }) {
-  return (
-    <div className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-red-500/50 bg-red-500/10">
-      <svg
-        className="w-4 h-4 text-red-500 shrink-0 mr-1.5"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-        />
-      </svg>
-      <p className="text-sm">{message}</p>
-    </div>
-  );
-}
+type Step = "signin" | "forgot-email" | "forgot-code" | "forgot-password";
 
 export function SignInForm() {
   const { signIn, errors, fetchStatus } = useSignIn();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({ identifier: "", password: "" });
   const [verificationCode, setVerificationCode] = useState("");
 
   const isLoading = fetchStatus === "fetching";
+
+  const [step, setStep] = useState<Step>("signin");
 
   const handleSubmit = async (formData: FormData) => {
   const identifier = formData.get("identifier") as string;
@@ -142,24 +49,65 @@ export function SignInForm() {
   }
   };
 
-const handleVerify = async (formData: FormData) => {
-  const code = formData.get("code") as string;
+  const handleVerify = async (formData: FormData) => {
+    const code = formData.get("code") as string;
 
-  await signIn.mfa.verifyEmailCode({ code });
+    await signIn.mfa.verifyEmailCode({ code });
 
-  if (signIn.status === "complete") {
-    await signIn.finalize({
-      navigate: ({ decorateUrl }) => {
-        const url = decorateUrl("/dashboard");
-        if (url.startsWith("http")) {
-          window.location.href = url;
-        } else {
-          router.push(url);
-        }
-      },
-    });
-  }
-};
+    if (signIn.status === "complete") {
+      await signIn.finalize({
+        navigate: ({ decorateUrl }) => {
+          const url = decorateUrl("/dashboard");
+          if (url.startsWith("http")) {
+            window.location.href = url;
+          } else {
+            router.push(url);
+          }
+        },
+      });
+    }
+  };
+
+  const handleSendCode = async (formData: FormData) => {
+    const emailAddress = formData.get("email") as string;
+
+    const { error: createError } = await signIn.create({ identifier: emailAddress });
+    if (createError) return;
+
+    const { error: sendError } = await signIn.resetPasswordEmailCode.sendCode();
+    if (sendError) return;
+
+    setStep("forgot-code");
+  };
+
+  const handleVerifyCode = async (formData: FormData) => {
+    const code = formData.get("code") as string;
+
+    const { error } = await signIn.resetPasswordEmailCode.verifyCode({ code });
+    if (error) return;
+
+    setStep("forgot-password");
+  };
+
+  const handleSetPassword = async (formData: FormData) => {
+    const password = formData.get("password") as string;
+
+    const { error } = await signIn.resetPasswordEmailCode.submitPassword({ password });
+    if (error) return;
+
+    if (signIn.status === "complete") {
+      await signIn.finalize({
+        navigate: ({ decorateUrl }) => {
+          const url = decorateUrl("/dashboard");
+          if (url.startsWith("http")) {
+            window.location.href = url;
+          } else {
+            router.push(url);
+          }
+        },
+      });
+    }
+  };
 
   if (
     signIn.status === "needs_second_factor" ||
@@ -222,6 +170,164 @@ const handleVerify = async (formData: FormData) => {
     );
   }
 
+  if (step === "forgot-email") {
+  return (
+    <div className="space-y-6">
+      <div className="text-center space-y-2">
+        <h2 className="text-2xl font-bold text-card-foreground">Forgot password?</h2>
+        <p className="text-muted-foreground">
+          Enter your email and we&apos;ll send you a reset code.
+        </p>
+      </div>
+
+      <form action={handleSendCode} className="space-y-5">
+        <div className="space-y-2">
+          <label htmlFor="email" className="block text-sm font-medium text-card-foreground">
+            Email
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <MailIcon className="w-5 h-5 text-muted-foreground" />
+            </div>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-xl text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+              required
+            />
+          </div>
+          {errors.fields.identifier && (
+            <FieldError message={errors.fields.identifier.message} />
+          )}
+        </div>
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="w-full py-3.5 bg-primary text-primary-foreground rounded-xl font-semibold text-base hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-card transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          {isLoading ? "Sending..." : "Send reset code"}
+        </button>
+      </form>
+
+      <p className="text-center text-muted-foreground text-sm">
+        Remembered it?{" "}
+        <button
+          onClick={() => setStep("signin")}
+          className="text-primary font-medium hover:text-primary/80 transition-colors"
+        >
+          Back to sign in
+        </button>
+      </p>
+    </div>
+  );
+}
+
+if (step === "forgot-code") {
+  return (
+    <div className="space-y-6">
+      <div className="text-center space-y-2">
+        <h2 className="text-2xl font-bold text-card-foreground">Check your email</h2>
+        <p className="text-muted-foreground">Enter the reset code we sent you.</p>
+      </div>
+
+      <form action={handleVerifyCode} className="space-y-5">
+        <div className="space-y-2">
+          <label htmlFor="code" className="block text-sm font-medium text-card-foreground">
+            Reset code
+          </label>
+          <input
+            id="code"
+            name="code"
+            type="text"
+            placeholder="Enter your code"
+            className="w-full px-4 py-3 bg-secondary border border-border rounded-xl text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+            required
+          />
+          {errors.fields.code && (
+            <FieldError message={`Code ${errors.fields.code.message}`} />
+          )}
+        </div>
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="w-full py-3.5 bg-primary text-primary-foreground rounded-xl font-semibold text-base hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-card transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          {isLoading ? "Verifying..." : "Verify code"}
+        </button>
+      </form>
+
+      <p className="text-center text-muted-foreground text-sm">
+        Didn&apos;t get the code?{" "}
+        <button
+          onClick={() => setStep("forgot-email")}
+          className="text-primary font-medium hover:text-primary/80 transition-colors"
+        >
+          Try again
+        </button>
+      </p>
+    </div>
+  );
+}
+
+if (step === "forgot-password") {
+  return (
+    <div className="space-y-6">
+      <div className="text-center space-y-2">
+        <h2 className="text-2xl font-bold text-card-foreground">Set new password</h2>
+        <p className="text-muted-foreground">Choose a strong password for your account.</p>
+      </div>
+
+      <form action={handleSetPassword} className="space-y-5">
+        <div className="space-y-2">
+          <label htmlFor="password" className="block text-sm font-medium text-card-foreground">
+            New password
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <LockIcon className="w-5 h-5 text-muted-foreground" />
+            </div>
+            <input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter your new password"
+              className="w-full pl-10 pr-12 py-3 bg-secondary border border-border rounded-xl text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted-foreground hover:text-card-foreground transition-colors"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? (
+                <EyeOffIcon className="w-5 h-5" />
+              ) : (
+                <EyeIcon className="w-5 h-5" />
+              )}
+            </button>
+          </div>
+          {errors.fields.password && (
+            <FieldError message={errors.fields.password.message} />
+          )}
+        </div>
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="w-full py-3.5 bg-primary text-primary-foreground rounded-xl font-semibold text-base hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-card transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          {isLoading ? "Updating..." : "Set new password"}
+        </button>
+      </form>
+    </div>
+  );
+}
+
   return (
     <div className="space-y-6">
       <div className="text-center space-y-2">
@@ -234,7 +340,6 @@ const handleVerify = async (formData: FormData) => {
       </div>
 
       <form action={handleSubmit} className="space-y-5">
-        {/* Email Field */}
         <div className="space-y-2">
           <label
             htmlFor="identifier"
@@ -244,22 +349,19 @@ const handleVerify = async (formData: FormData) => {
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <MailIcon className="w-5 h-5 text-muted-foreground" />
+              <UserIcon className="w-5 h-5 text-muted-foreground" />
             </div>
             <input
               id="identifier"
               name="identifier"
               type="text"
               placeholder="Email or username"
-              value={formData.identifier}
-              onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
               className="w-full pl-10 pr-4 py-3 bg-secondary border border-border rounded-xl text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               required
             />
           </div>
         </div>
 
-        {/* Password Field */}
         <div className="space-y-2">
           <label
             htmlFor="password"
@@ -276,8 +378,6 @@ const handleVerify = async (formData: FormData) => {
               name="password"
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               className="w-full pl-10 pr-12 py-3 bg-secondary border border-border rounded-xl text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               required
             />
@@ -304,17 +404,16 @@ const handleVerify = async (formData: FormData) => {
           <FieldError message={errors.fields.password.message} />
         )}
 
-        {/* Forgot Password */}
         <div className="flex justify-end">
-          <Link
-            href="#"
+          <button
+            type="button"
+            onClick={() => setStep("forgot-email")}
             className="text-sm text-primary hover:text-primary/80 transition-colors"
           >
             Forgot password?
-          </Link>
+          </button>
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           disabled={isLoading}
@@ -334,7 +433,6 @@ const handleVerify = async (formData: FormData) => {
         </button>
       </form>
 
-      {/* Sign Up Link */}
       <p className="text-center text-muted-foreground">
         Don&apos;t have an account?{" "}
         <Link
