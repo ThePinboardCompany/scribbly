@@ -171,7 +171,7 @@ export function Hero() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/sign-up" className="px-8 py-4 bg-foreground text-background rounded-full font-medium text-lg hover:opacity-90 transition-all hover:scale-105">
+              <Link href="/signup" className="px-8 py-4 bg-foreground text-background rounded-full font-medium text-lg hover:opacity-90 transition-all hover:scale-105">
                 Start Brainstorming
               </Link>
               <Link href="/docs" className="px-8 py-4 bg-transparent border-2 border-border text-foreground rounded-full font-medium text-lg hover:bg-secondary transition-all hover:scale-105">
