@@ -33,7 +33,9 @@ export function SignInForm() {
   if (signIn.status === "complete") {
     await signIn.finalize({
       navigate: ({ decorateUrl }) => {
-        const url = decorateUrl("/dashboard");
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectUrl = urlParams.get("redirect_url");
+        const url = decorateUrl(redirectUrl || "/dashboard");
         if (url.startsWith("http")) {
           window.location.href = url;
         } else {
@@ -57,7 +59,9 @@ export function SignInForm() {
     if (signIn.status === "complete") {
       await signIn.finalize({
         navigate: ({ decorateUrl }) => {
-          const url = decorateUrl("/dashboard");
+          const urlParams = new URLSearchParams(window.location.search);
+          const redirectUrl = urlParams.get("redirect_url");
+          const url = decorateUrl(redirectUrl || "/dashboard");
           if (url.startsWith("http")) {
             window.location.href = url;
           } else {
@@ -98,7 +102,9 @@ export function SignInForm() {
     if (signIn.status === "complete") {
       await signIn.finalize({
         navigate: ({ decorateUrl }) => {
-          const url = decorateUrl("/dashboard");
+          const urlParams = new URLSearchParams(window.location.search);
+          const redirectUrl = urlParams.get("redirect_url");
+          const url = decorateUrl(redirectUrl || "/dashboard");
           if (url.startsWith("http")) {
             window.location.href = url;
           } else {

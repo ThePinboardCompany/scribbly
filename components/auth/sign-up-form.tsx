@@ -49,7 +49,9 @@ export function SignUpForm() {
     if (signUp.status === "complete") {
       await signUp.finalize({
         navigate: ({ decorateUrl }) => {
-          const url = decorateUrl("/dashboard");
+          const urlParams = new URLSearchParams(window.location.search);
+          const redirectUrl = urlParams.get("redirect_url");
+          const url = decorateUrl(redirectUrl || "/dashboard");
           if (url.startsWith("http")) {
             window.location.href = url;
           } else {
