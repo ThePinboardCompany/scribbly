@@ -1,6 +1,8 @@
 import { AuthLayout } from "@/components/auth/auth-layout";
 import { SignUpForm } from "@/components/auth/sign-up-form";
+import { AuthLayoutSkeleton, SignUpSkeleton } from "@/components/auth/skeleton";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Sign Up - Scribbly",
@@ -8,8 +10,10 @@ export const metadata: Metadata = {
 
 export default function SignUpPage() {
   return (
-    <AuthLayout>
-      <SignUpForm />
-    </AuthLayout>
+    <Suspense fallback={<AuthLayoutSkeleton><SignUpSkeleton /></AuthLayoutSkeleton>}>
+      <AuthLayout>
+        <SignUpForm />
+      </AuthLayout>
+    </Suspense>
   );
 }

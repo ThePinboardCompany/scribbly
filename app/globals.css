@@ -71,3 +71,19 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(var(--color-muted));
+  }
+  50% {
+    background-color: hsl(var(--color-muted) / 0.6);
+  }
+  100% {
+    background-color: hsl(var(--color-muted));
+  }
+}
+
+.animate-skeleton {
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}

@@ -5,6 +5,13 @@ import { Features } from "@/components/home/features";
 import { Preview } from "@/components/home/preview";
 import { CTA } from "@/components/home/cta";
 import { Footer } from "@/components/home/footer";
+import { Suspense } from "react";
+import {
+  HeroSkeleton,
+  FeaturesSkeleton,
+  PreviewSkeleton,
+  CTASkeleton,
+} from "@/components/home/skeleton";
 
 export default async function Home() {
   const { userId } = await auth()
@@ -12,10 +19,18 @@ export default async function Home() {
   return (
     <main className="min-h-screen">
       <Navbar isSignedIn={!!userId} />
-      <Hero />
-      <Features />
-      <Preview />
-      <CTA />
+      <Suspense fallback={<HeroSkeleton />}>
+        <Hero />
+      </Suspense>
+      <Suspense fallback={<FeaturesSkeleton />}>
+        <Features />
+      </Suspense>
+      <Suspense fallback={<PreviewSkeleton />}>
+        <Preview />
+      </Suspense>
+      <Suspense fallback={<CTASkeleton />}>
+        <CTA />
+      </Suspense>
       <Footer />
     </main>
   );
